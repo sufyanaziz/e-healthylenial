@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Header from "../../components/header";
 import FlashMessage from "../../components/flash/FlashMessage";
+import LoadingComponent from "../../components/loading";
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { Context } from "../../context/storage";
@@ -74,7 +75,9 @@ const PageLogin = props => {
               />
             </div>
             {loading ? (
-              <p>.....</p>
+              <button>
+                <LoadingComponent iconSize={20} color="white" />
+              </button>
             ) : (
               <button type="submit" disabled={btnDissabled()}>
                 Login
@@ -112,6 +115,8 @@ const LoginContainer = styled.div`
     color: white;
     border: transparent;
     margin-bottom: 12px;
+    outline: none;
+    border-radius: 4px;
   }
 
   a {
@@ -153,6 +158,9 @@ const LoginContainer = styled.div`
   .login-card-input .username,
   .login-card-input .password {
     margin-bottom: 10px;
+  }
+  input {
+    outline: none;
   }
 `;
 

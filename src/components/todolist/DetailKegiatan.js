@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import styled from "styled-components";
+import LoadingComponent from "../loading";
 
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import UpdateIcon from "@material-ui/icons/Update";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const DetailKegiatan = ({ open, handleClose, data, updateKegiatanList }) => {
+const DetailKegiatan = ({
+  open,
+  handleClose,
+  data,
+  updateKegiatanList,
+  loading,
+}) => {
   const [updateActive, setUpdateActive] = useState(false);
   const [namaKegiatan, setNamaKegiatan] = useState("");
   const [information, setInformation] = useState("");
@@ -279,7 +286,11 @@ const DetailKegiatan = ({ open, handleClose, data, updateKegiatanList }) => {
                 onClick={handleClickUpdateKegiatan}
                 disabled={disabledButton()}
               >
-                Update
+                {loading ? (
+                  <LoadingComponent color="var(--mainRed)" iconSize={30} />
+                ) : (
+                  "Update"
+                )}
               </button>
             )}
           </div>
@@ -397,9 +408,9 @@ const DetailKegiatanContainer = styled.div`
   }
 
   .action-kegiatan button {
-    padding: 10px;
+    padding: 8px;
     background: ${props => (props.disabledButton ? "gray" : "var(--mainRed)")};
-    border: 1px solid white;
+    border: transparent;
     color: white;
     border-radius: 4px;
     width: 100%;
@@ -408,11 +419,6 @@ const DetailKegiatanContainer = styled.div`
     cursor: ${props => (props.disabledButton ? "not-allowed" : "pointer")};
     margin-top: 5px;
   }
-  // .action-kegiatan button:hover {
-  //   background: white;
-  //   border: 1px solid var(--mainRed);
-  //   color: var(--mainRed);
-  // }
 `;
 
 export default DetailKegiatan;

@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 
 import { getTodayDate } from "../../util/date";
+import LoadingComponent from "../loading";
 
 const AddKegiatan = ({
   open,
@@ -12,6 +13,7 @@ const AddKegiatan = ({
   namaKategori,
   context,
   onToday,
+  loading,
 }) => {
   const [nama_kegiatan, setNama_kegiatan] = useState("");
   const [keterangan, setKeterangan] = useState("");
@@ -29,18 +31,6 @@ const AddKegiatan = ({
 
   const onSubmitKegiatan = e => {
     e.preventDefault();
-    const data_reducer = {
-      id_kategori: idKategori,
-      id_user: context.user.details.id_user,
-      nama_kegiatan,
-      start_weight,
-      end_weight: 0,
-      start_height,
-      end_height: 0,
-      status: "not-finished",
-      keterangan,
-      created_at: new Date().getTime(),
-    };
 
     const data_database = {
       id_kategori: idKategori,
@@ -50,7 +40,7 @@ const AddKegiatan = ({
       keterangan,
     };
     onToday(getTodayDate);
-    context.addNewKegiatan({ data_reducer, data_database, onCloseDialog });
+    context.addNewKegiatan({ data_database, onCloseDialog, namaKategori });
   };
 
   const buttonDisabled = () => {
@@ -112,12 +102,18 @@ const AddKegiatan = ({
             />
           </div>
           <div className="add-kegiatan-submit">
-            <input
-              type="submit"
-              className="button-submit"
-              value="Add New List"
-              disabled={buttonDisabled()}
-            />
+            {loading ? (
+              <button className="button-submit">
+                <LoadingComponent iconSize={25} color="white" />
+              </button>
+            ) : (
+              <input
+                type="submit"
+                className="button-submit"
+                value="Add New List"
+                disabled={buttonDisabled()}
+              />
+            )}
           </div>
         </form>
       </AddKegiatanContainer>

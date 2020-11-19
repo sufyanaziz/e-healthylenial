@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 import axios from "./axios";
 
 import "./App.css";
+import LoadingComponent from "./components/loading";
 // import LoadingComponents from "./components/loading";
 import Landing from "./pages/landing";
 import Login from "./pages/login";
@@ -40,18 +41,60 @@ const App = props => {
     <div className="App">
       <Switch>
         {/* Auth User */}
-        {user.auth && <Route component={List} path="/list" exact />}
-        {user.auth && <Route component={History} path="/history" exact />}
-        {user.auth && <Route component={Profile} path="/u/:username" exact />}
-        {user.auth && <Route component={Dashboard} path="/" exact />}
-        {user.auth && <Redirect from="/login" to="/" />}
-        {user.auth && <Redirect from="/register" to="/" />}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Route component={List} path="/list" exact />
+        )}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Route component={History} path="/history" exact />
+        )}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Route component={Profile} path="/u/:username" exact />
+        )}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Route component={Dashboard} path="/" exact />
+        )}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Redirect from="/login" to="/" />
+        )}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Redirect from="/register" to="/" />
+        )}
+        {user.loading ? (
+          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+            <LoadingComponent iconSize={80} width="100%" height="100%" />
+          </div>
+        ) : (
+          user.auth && <Route component={ErrorPage} path="/*" exact />
+        )}
 
         {/* UnAuth User */}
         <Route component={Landing} path="/" exact />
         <Route component={Login} path="/login" exact />
         <Route component={Register} path="/register" exact />
-        <Route component={ErrorPage} path="/*" exact />
       </Switch>
     </div>
   );

@@ -18,7 +18,6 @@ import {
   SET_FLASH_MESSAGE,
   UNSET_FLASH_MESSAGE,
   UNSET_ERROR_USER,
-  SET_KATEGORI,
   SET_ALL_KATEGORI,
   SET_LOADING_KATEGORI,
   SET_ALL_KEGIATAN,
@@ -159,7 +158,7 @@ const Provider = props => {
         kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: "not-found" });
       });
   };
-  const addNewKegiatan = ({ data_reducer, data_database, onCloseDialog }) => {
+  const addNewKegiatan = ({ data_database, onCloseDialog, namaKategori }) => {
     kegiatanDispatch({ type: SET_LOADING_KEGIATAN });
     axios
       .post("/kegiatan/add_kegiatan", data_database)
@@ -168,6 +167,11 @@ const Provider = props => {
           type: SET_KEGIATAN,
           payload: res.data.data,
         });
+        window.alert(
+          `Success add new list on ${
+            namaKategori.charAt(0).toUpperCase() + namaKategori.slice(1)
+          } ✔️`
+        );
         onCloseDialog();
       })
       .catch(err => {
@@ -179,8 +183,7 @@ const Provider = props => {
     axios
       .post(`/kegiatan/update_status/${id_kegiatan}`, data)
       .then(() => {
-        closeDialog(false);
-
+        closeDialog();
         window.alert(
           "Your list has been completed. Hope that you enjoy your workout and do more exercise 😄. We're looking forward for your achievement, Fighting 🦾"
         );

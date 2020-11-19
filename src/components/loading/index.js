@@ -1,26 +1,45 @@
 import styled from "styled-components";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { withStyles } from "@material-ui/core/styles";
 
-const Loading = () => {
+const Loading = ({ width, height, iconSize, color, type }) => {
   return (
-    <LoadingContainer>
-      <p>Loading...</p>
+    <LoadingContainer width={width} height={height} color={color}>
+      {type === "linear" ? (
+        <BorderLinearProgress className="loading-icon" size={iconSize} />
+      ) : (
+        <CircularProgress className="loading-icon" size={iconSize} />
+      )}
     </LoadingContainer>
   );
 };
 
-const LoadingContainer = styled.div`
-  position: absolute;
-  background: white;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
+const BorderLinearProgress = withStyles(theme => ({
+  root: {
+    height: 8,
+    borderRadius: 4,
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 4,
+    backgroundColor: "var(--mainGreen)",
+  },
+}))(LinearProgress);
 
-  p {
-    color: black;
-    text-align: center;
-    margin: auto;
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${props => (props.width ? props.width : "auto")};
+  height: ${props => (props.height ? props.height : "auto")};
+
+  .loading-icon {
+    color: ${props => (props.color ? props.color : "var(--mainGreen)")};
+    width: 100%;
   }
 `;
 

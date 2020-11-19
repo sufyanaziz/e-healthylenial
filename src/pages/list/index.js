@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogAddKegiatan from "../../components/todolist/AddKegiatan";
 import DialogDetailKegiatan from "../../components/todolist/DetailKegiatan";
 import DialogFinishKegiatan from "../../components/todolist/FinishKegiatan";
+import LoadingComponent from "../../components/loading";
 
 const List = props => {
   const [kategori, setKategori] = useState();
@@ -158,7 +159,7 @@ const List = props => {
     <Layout history={props.history}>
       <ListContainer kategori={kategori} kategori_active={active}>
         {loading ? (
-          <p>...</p>
+          <LoadingComponent type="linear" width="100%" />
         ) : (
           <>
             <DialogAddKegiatan
@@ -168,6 +169,7 @@ const List = props => {
               namaKategori={kategori}
               context={context}
               onToday={setWaktu}
+              loading={context.kegiatan.loading}
             />
             <DialogDetailKegiatan
               open={openDialogDetailKegiatan}
@@ -175,74 +177,84 @@ const List = props => {
               data={detailKegiatan}
               kategori={kategori}
               updateKegiatanList={context.updateKegiatanList}
+              loading={context.kegiatan.loading}
             />
             <DialogFinishKegiatan
               open={openDialogFinishKegiatan}
               handleClose={setOpenDialogFinishKegiatan}
               data={detailKegiatan}
               finishKegiatan={context.updateStatusKegiatan}
-              loading={loading}
+              loading={context.kegiatan.loading}
             />
             <div className="list-todo">
-              <div className="list-todo-header">
-                <h3>To do list</h3>
-                {kategori !== undefined && (
-                  <button onClick={handleOpenDialogAddNewKegiatan}>
-                    Create To do list on {kategori}, now!
-                  </button>
-                )}
-              </div>
-              {clickKategori && (
-                <div className="list-todo-filter">
-                  <p>
-                    Filter by date -{" "}
-                    <span
-                      style={{
-                        fontWeight: "bold",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {kategori}
-                    </span>
-                  </p>
-                  <input
-                    type="date"
-                    value={waktu}
-                    onChange={handleChangeWaktu}
-                  />
-                </div>
-              )}
-              <div className="list-todo-card">
-                {clickKategori ? (
-                  context.kegiatan.loading === true ? (
-                    <CircularProgress className="list-todo-loading" />
-                  ) : all_kegiatan.length === 0 ? (
-                    <p className="list-todo-404">
-                      You have no list on
-                      <span
-                        style={{ marginLeft: 5, textDecoration: "underline" }}
-                      >
-                        {kategori}
-                      </span>
-                      , you can create one!
-                    </p>
-                  ) : activeWaktu ? (
-                    filterByHari.length === 0 ? (
-                      <p style={{ padding: 10 }}>List is not found!</p>
+              {context.kegiatan.loading ? (
+                <LoadingComponent type="linear" width="100%" />
+              ) : (
+                <>
+                  <div className="list-todo-header">
+                    <h3>To do list</h3>
+                    {kategori !== undefined && (
+                      <button onClick={handleOpenDialogAddNewKegiatan}>
+                        Create To do list on {kategori}, now!
+                      </button>
+                    )}
+                  </div>
+                  {clickKategori && (
+                    <div className="list-todo-filter">
+                      <p>
+                        Filter by date -{" "}
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {kategori}
+                        </span>
+                      </p>
+                      <input
+                        type="date"
+                        value={waktu}
+                        onChange={handleChangeWaktu}
+                      />
+                    </div>
+                  )}
+                  <div className="list-todo-card">
+                    {clickKategori ? (
+                      context.kegiatan.loading === true ? (
+                        <CircularProgress className="list-todo-loading" />
+                      ) : all_kegiatan.length === 0 ? (
+                        <p className="list-todo-404">
+                          You have no list on
+                          <span
+                            style={{
+                              marginLeft: 5,
+                              textDecoration: "underline",
+                            }}
+                          >
+                            {kategori}
+                          </span>
+                          , you can create one!
+                        </p>
+                      ) : activeWaktu ? (
+                        filterByHari.length === 0 ? (
+                          <p style={{ padding: 10 }}>List is not found!</p>
+                        ) : (
+                          // all_kegiatan by filter hari
+                          componentFilterHari
+                        )
+                      ) : (
+                        // pure all_kegiatan or no filter
+                        componentAllKegiatan
+                      )
                     ) : (
-                      // all_kegiatan by filter hari
-                      componentFilterHari
-                    )
-                  ) : (
-                    // pure all_kegiatan or no filter
-                    componentAllKegiatan
-                  )
-                ) : (
-                  <p className="list-todo-blank">
-                    Please select category <ArrowRightIcon />
-                  </p>
-                )}
-              </div>
+                      <p className="list-todo-blank">
+                        Please select category <ArrowRightIcon />
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
             <div className="list-kategori">
               <div className="list-kategori-card">
@@ -265,7 +277,7 @@ const List = props => {
                 <div className="list-info-card">
                   {context.kegiatan.loading ? (
                     <div className="list-info-header">
-                      <p>...</p>
+                      <LoadingComponent iconSize={30} />
                     </div>
                   ) : (
                     <>

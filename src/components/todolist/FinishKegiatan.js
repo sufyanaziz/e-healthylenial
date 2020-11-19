@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import LoadingComponent from "../loading";
 
 const FinishKegiatan = ({
   open,
@@ -46,9 +47,7 @@ const FinishKegiatan = ({
       "Do you want to continue? if you continue, you can't go back!"
     );
     if (confirm) {
-      finishKegiatan({ id_kegiatan, data, closeDialog: handleClose });
-      setEndWeight("");
-      setEndHeight("");
+      finishKegiatan({ id_kegiatan, data, closeDialog: onCloseDialog });
     }
   };
 
@@ -91,110 +90,110 @@ const FinishKegiatan = ({
 
   return (
     <Dialog open={open} onClose={onCloseDialog}>
-      {loading ? (
-        <p>.....</p>
-      ) : (
-        <FinishKegiatanContainer
-          status={status}
-          disabledButton={disabledButton()}
-        >
-          <div className="finish-kegiatan-header">
-            <h3>Update List (Weight and Height)</h3>
-          </div>
-          <div className="finish-kegiatan-main">
-            <div className="finish-kegiatan-nks">
-              <div>
-                <p>List Name</p>
-              </div>
-              <div>
-                <p>{nama_kegiatan}</p>
-              </div>
+      <FinishKegiatanContainer
+        status={status}
+        disabledButton={disabledButton()}
+      >
+        <div className="finish-kegiatan-header">
+          <h3>Update List (Weight and Height)</h3>
+        </div>
+        <div className="finish-kegiatan-main">
+          <div className="finish-kegiatan-nks">
+            <div>
+              <p>List Name</p>
             </div>
-            <div className="finish-kegiatan-nks">
-              <div>
-                <p>Category</p>
-              </div>
-              <div>
-                <p style={{ textTransform: "capitalize" }}>
-                  {kategori && kategori.nama_kategori}
-                </p>
-              </div>
-            </div>
-            <div className="finish-kegiatan-nks">
-              <div>
-                <p>Information</p>
-              </div>
-              <div>
-                <p>{keterangan}</p>
-              </div>
-            </div>
-            <div className="finish-kegiatan-wh">
-              <div className="kegiatan-wh-header">
-                <div>
-                  <p>Start Weight (kg)</p>
-                </div>
-                <div>
-                  <p>End Weight (kg)</p>
-                </div>
-              </div>
-              <div className="kegiatan-wh-main">
-                <div>
-                  <p>{start_weight}</p>
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder={end_weight}
-                    value={endWeight}
-                    onChange={e => setEndWeight(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="finish-kegiatan-wh">
-              <div className="kegiatan-wh-header">
-                <div>
-                  <p>Start Height (cm)</p>
-                </div>
-                <div>
-                  <p>End Height (cm)</p>
-                </div>
-              </div>
-              <div className="kegiatan-wh-main">
-                <div>
-                  <p>{start_height}</p>
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder={end_height}
-                    value={endHeight}
-                    onChange={e => setEndHeight(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="finish-kegiatan-nks">
-              <div>
-                <p>Status</p>
-              </div>
-              <div>
-                <p className="status-kegiatan">{status}</p>
-                {countEndWeight}
-                {countEndHeight}
-              </div>
-            </div>
-            <div className="finish-action">
-              <button
-                onClick={handleClickFinishKegiatan}
-                disabled={disabledButton()}
-              >
-                Update List
-              </button>
+            <div>
+              <p>{nama_kegiatan}</p>
             </div>
           </div>
-        </FinishKegiatanContainer>
-      )}
+          <div className="finish-kegiatan-nks">
+            <div>
+              <p>Category</p>
+            </div>
+            <div>
+              <p style={{ textTransform: "capitalize" }}>
+                {kategori && kategori.nama_kategori}
+              </p>
+            </div>
+          </div>
+          <div className="finish-kegiatan-nks">
+            <div>
+              <p>Information</p>
+            </div>
+            <div>
+              <p>{keterangan}</p>
+            </div>
+          </div>
+          <div className="finish-kegiatan-wh">
+            <div className="kegiatan-wh-header">
+              <div>
+                <p>Start Weight (kg)</p>
+              </div>
+              <div>
+                <p>End Weight (kg)</p>
+              </div>
+            </div>
+            <div className="kegiatan-wh-main">
+              <div>
+                <p>{start_weight}</p>
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder={end_weight}
+                  value={endWeight}
+                  onChange={e => setEndWeight(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="finish-kegiatan-wh">
+            <div className="kegiatan-wh-header">
+              <div>
+                <p>Start Height (cm)</p>
+              </div>
+              <div>
+                <p>End Height (cm)</p>
+              </div>
+            </div>
+            <div className="kegiatan-wh-main">
+              <div>
+                <p>{start_height}</p>
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder={end_height}
+                  value={endHeight}
+                  onChange={e => setEndHeight(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="finish-kegiatan-nks">
+            <div>
+              <p>Status</p>
+            </div>
+            <div>
+              <p className="status-kegiatan">{status}</p>
+              {countEndWeight}
+              {countEndHeight}
+            </div>
+          </div>
+          <div className="finish-action">
+            <button
+              onClick={handleClickFinishKegiatan}
+              disabled={disabledButton()}
+            >
+              {loading ? (
+                <LoadingComponent iconSize={20} color="white" />
+              ) : (
+                "Update List"
+              )}
+            </button>
+          </div>
+        </div>
+      </FinishKegiatanContainer>
     </Dialog>
   );
 };
