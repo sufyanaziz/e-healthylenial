@@ -2,12 +2,15 @@ import { createContext, useReducer } from "react";
 import axios from "../axios";
 import userReducer, { initialState as initialStateUser } from "./reducers/user";
 import kategoriReducer, {
-  inisitalState as initialStateKategori,
+  initialState as initialStateKategori,
 } from "./reducers/kategori";
 
 import kegiatanReducer, {
-  inisitalState as initialStateKegiatan,
+  initialState as initialStateKegiatan,
 } from "./reducers/kegiatan";
+import kontenReducer, {
+  initialState as initialStateKonten,
+} from "./reducers/konten";
 
 import {
   SET_AUTH,
@@ -26,6 +29,9 @@ import {
   SET_LOADING_KEGIATAN,
   SET_ERROR_KEGIATAN,
   SET_UPDATE_KEGIATAN,
+  SET_LOADING_KONTEN,
+  SET_KONTEN,
+  SET_ERROR_KONTEN,
 } from "./types";
 
 const Context = createContext();
@@ -39,6 +45,10 @@ const Provider = props => {
   const [kegiatanState, kegiatanDispatch] = useReducer(
     kegiatanReducer,
     initialStateKegiatan
+  );
+  const [kontenState, kontenDispatch] = useReducer(
+    kontenReducer,
+    initialStateKonten
   );
 
   const login = ({ data, history }) => {
@@ -215,6 +225,19 @@ const Provider = props => {
       });
   };
   // End Kegiatan Section
+  // Konten Section
+  const getAllKonten = () => {
+    kontenDispatch({ type: SET_LOADING_KONTEN });
+    axios
+      .get("/konten/get_all")
+      .then(res => {
+        kontenDispatch({ type: SET_KONTEN, payload: res.data.data });
+      })
+      .catch(err => {
+        kontenDispatch({ type: SET_ERROR_KONTEN, payload: err });
+      });
+  };
+  // End Konten Section
 
   return (
     <Context.Provider
@@ -222,6 +245,7 @@ const Provider = props => {
         user: { ...userState },
         kategori: { ...kategoriState },
         kegiatan: { ...kegiatanState },
+        konten: { ...kontenState },
         login,
         logout,
         register,
@@ -233,6 +257,7 @@ const Provider = props => {
         updateStatusKegiatan,
         addNewKegiatan,
         updateKegiatanList,
+        getAllKonten,
       }}
     >
       {props.children}

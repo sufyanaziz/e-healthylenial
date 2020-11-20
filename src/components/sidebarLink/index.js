@@ -17,9 +17,9 @@ const SidebarLink = ({ username }) => {
         <ListAltIcon className="icon" />
         <p>List</p>
       </NavLink>
-      <NavLink className="link" to="/history" exact>
+      <NavLink className="link" to="/report" exact>
         <HistoryIcon className="icon" />
-        <p>History</p>
+        <p>Report</p>
       </NavLink>
       <NavLink className="link" to={`/u/${username}`} exact>
         <AccountCircleIcon className="icon" />

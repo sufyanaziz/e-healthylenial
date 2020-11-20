@@ -1,6 +1,6 @@
 import { SET_KATEGORI, SET_ALL_KATEGORI, SET_LOADING_KATEGORI } from "../types";
 
-export const inisitalState = {
+export const initialState = {
   kategori: {},
   all_kategori: [],
   loading: false,

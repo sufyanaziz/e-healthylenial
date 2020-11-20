@@ -269,6 +269,7 @@ const List = props => {
                         key={data.id_kategori}
                         data={data}
                         onClick={() => onClickKategori(data)}
+                        className="list-kategori-main"
                       />
                     );
                   })}

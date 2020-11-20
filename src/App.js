@@ -33,69 +33,35 @@ const App = props => {
         getUserData();
       }
     } else {
-      console.log("you have no token in localstorage");
+      console.log("you have no t  oken in localstorage");
     }
   }, []);
 
   return (
     <div className="App">
-      <Switch>
-        {/* Auth User */}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Route component={List} path="/list" exact />
-        )}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Route component={History} path="/history" exact />
-        )}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Route component={Profile} path="/u/:username" exact />
-        )}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Route component={Dashboard} path="/" exact />
-        )}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Redirect from="/login" to="/" />
-        )}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Redirect from="/register" to="/" />
-        )}
-        {user.loading ? (
-          <div style={{ width: "100vw", height: "100vh", background: "white" }}>
-            <LoadingComponent iconSize={80} width="100%" height="100%" />
-          </div>
-        ) : (
-          user.auth && <Route component={ErrorPage} path="/*" exact />
-        )}
-
-        {/* UnAuth User */}
-        <Route component={Landing} path="/" exact />
-        <Route component={Login} path="/login" exact />
-        <Route component={Register} path="/register" exact />
-      </Switch>
+      {/* Auth User */}
+      {user.loading ? (
+        <div style={{ width: "100vw", height: "100vh", background: "white" }}>
+          <LoadingComponent iconSize={80} width="100%" height="100%" />
+        </div>
+      ) : user.auth ? (
+        <Switch>
+          <Route component={List} path="/list" exact />
+          <Route component={History} path="/report" exact />
+          <Route component={Profile} path="/u/:username" exact />
+          <Route component={Dashboard} path="/" exact />
+          <Redirect from="/login" to="/" />
+          <Redirect from="/register" to="/" />
+          <Route component={ErrorPage} path="/*" exact />
+        </Switch>
+      ) : (
+        <Switch>
+          {/* UnAuth User */}
+          <Route component={Landing} path="/" exact />
+          <Route component={Login} path="/login" exact />
+          <Route component={Register} path="/register" exact />
+        </Switch>
+      )}
     </div>
   );
 };

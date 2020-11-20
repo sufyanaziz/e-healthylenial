@@ -7,7 +7,7 @@ import {
   SET_UPDATE_KEGIATAN,
 } from "../types";
 
-export const inisitalState = {
+export const initialState = {
   all_kegiatan: [],
   loading: false,
   error: {},
