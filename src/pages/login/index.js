@@ -3,7 +3,7 @@ import Header from "../../components/header";
 import FlashMessage from "../../components/flash/FlashMessage";
 import LoadingComponent from "../../components/loading";
 import { Link } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Context } from "../../context/storage";
 
 const PageLogin = props => {
@@ -13,6 +13,12 @@ const PageLogin = props => {
 
   const { login, unsetFlashMessage } = context;
   const { flash, loading } = context.user;
+
+  useEffect(() => {
+    document.title = "Login - HealthyLenial";
+  }, []);
+
+  console.log("Follow me on instagram: ahmadsufyan_ 🔥");
 
   const onSubmitLogin = e => {
     e.preventDefault();

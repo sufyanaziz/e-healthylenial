@@ -14,6 +14,7 @@ const DetailKegiatan = ({
   data,
   updateKegiatanList,
   loading,
+  deleteKegiatan,
 }) => {
   const [updateActive, setUpdateActive] = useState(false);
   const [namaKegiatan, setNamaKegiatan] = useState("");
@@ -121,6 +122,15 @@ const DetailKegiatan = ({
     setStartHeight("");
   };
 
+  const handleClickDeleteKegiatan = () => {
+    const confirm = window.confirm(
+      "⚠️ Are you sure remove this list? When you delete this list, you can't go back!"
+    );
+    if (confirm) {
+      deleteKegiatan({ id_kegiatan, closeDialog: onCloseDialog });
+    }
+  };
+
   return (
     <Dialog open={open} onClose={onCloseDialog}>
       <DetailKegiatanContainer
@@ -143,7 +153,7 @@ const DetailKegiatan = ({
               ) : (
                 <UpdateIcon style={{ marginRight: 3, fontSize: 18 }} />
               )}
-              {updateActive ? "Close Edit" : "Edit"}
+              {updateActive ? "Close Edit List" : "Edit List"}
             </button>
           )}
         </div>
@@ -281,17 +291,31 @@ const DetailKegiatan = ({
             </div>
           </div>
           <div className="action-kegiatan">
-            {updateActive && (
+            {updateActive ? (
               <button
                 onClick={handleClickUpdateKegiatan}
                 disabled={disabledButton()}
+                className="update-button"
               >
                 {loading ? (
                   <LoadingComponent color="var(--mainRed)" iconSize={30} />
                 ) : (
-                  "Update"
+                  "Update List"
                 )}
               </button>
+            ) : (
+              status !== "finish" && (
+                <button
+                  className="delete-button"
+                  onClick={handleClickDeleteKegiatan}
+                >
+                  {loading ? (
+                    <LoadingComponent color="white" iconSize={30} />
+                  ) : (
+                    "Delete List"
+                  )}
+                </button>
+              )
             )}
           </div>
         </div>
@@ -407,7 +431,8 @@ const DetailKegiatanContainer = styled.div`
     margin-bottom: 1px;
   }
 
-  .action-kegiatan button {
+  .action-kegiatan .update-button,
+  .action-kegiatan .delete-button {
     padding: 8px;
     background: ${props => (props.disabledButton ? "gray" : "var(--mainRed)")};
     border: transparent;
@@ -418,6 +443,10 @@ const DetailKegiatanContainer = styled.div`
     outline: none;
     cursor: ${props => (props.disabledButton ? "not-allowed" : "pointer")};
     margin-top: 5px;
+  }
+  .action-kegiatan .delete-button {
+    background: var(--mainRed);
+    cursor: pointer;
   }
 `;
 

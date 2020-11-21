@@ -27,6 +27,7 @@ const Dashboard = props => {
   useEffect(() => {
     context.getAllKonten();
   }, []);
+  console.log("Welcome to Dashboard Page 🔥");
 
   useEffect(() => {
     const timer = setInterval(() => {

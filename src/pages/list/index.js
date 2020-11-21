@@ -37,8 +37,10 @@ const List = props => {
   const { all_kegiatan } = context.kegiatan;
 
   useEffect(() => {
+    document.title = "Todo List - HealthyLenial";
     context.getAllKategori();
   }, []);
+  console.log("Welcome to TodoList Page 🔥");
 
   const onClickKategori = data => {
     const id_kategori = data.id_kategori;
@@ -178,6 +180,7 @@ const List = props => {
               kategori={kategori}
               updateKegiatanList={context.updateKegiatanList}
               loading={context.kegiatan.loading}
+              deleteKegiatan={context.deleteKegiatan}
             />
             <DialogFinishKegiatan
               open={openDialogFinishKegiatan}

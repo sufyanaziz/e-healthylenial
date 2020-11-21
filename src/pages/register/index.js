@@ -3,6 +3,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import { Context } from "../../context/storage";
+import FlashMessage from "../../components/flash/FlashMessage";
 
 const Register = ({ history }) => {
   const [name, setName] = useState("");
@@ -15,8 +16,8 @@ const Register = ({ history }) => {
   const { register, user, clearError, unsetFlashMessage } = useContext(Context);
 
   useEffect(() => {
+    document.title = "Register - HealthyLenial";
     clearError();
-    unsetFlashMessage();
   }, []);
 
   useEffect(() => {
@@ -49,8 +50,11 @@ const Register = ({ history }) => {
     setTanggal_lahir(e.target.value);
   };
   const onChangePassword = e => {
-    setPassword(e.target.value);
-    errors.password = "";
+    const input = e.target.value;
+    setPassword(input);
+    if (input.length === 0 || input.length >= 6) errors.password = "";
+    else if (input.length < 6)
+      errors.password = "You have to enter at least 6 digit!";
   };
   const onChangeConfirmPassword = e => {
     setConfirmPassword(e.target.value);
@@ -62,9 +66,14 @@ const Register = ({ history }) => {
     if (username.trim() === "") errors.username = true;
     if (tanggal_lahir.trim() === "") errors.tanggal_lahir = true;
     if (password.trim() === "") errors.password = true;
+    else if (password.length < 6) errors.password = true;
     else if (password !== confirmPassword) errors.password = true;
 
     return { valid: Object.keys(errors).length === 0 ? true : false, errors };
+  };
+
+  const objFlashMsg = () => {
+    return Object.keys(user.flash).length === 0 ? false : true;
   };
 
   return (
@@ -74,6 +83,13 @@ const Register = ({ history }) => {
         <div className="register-card-header">
           <h1>Register</h1>
         </div>
+        {objFlashMsg() === true && (
+          <FlashMessage
+            message={user.flash.msg}
+            status={user.flash.status}
+            onClick={unsetFlashMessage}
+          />
+        )}
         <form className="register-card-main" onSubmit={onSubmitRegister}>
           <div className="name">
             <small>Name</small>
@@ -200,8 +216,9 @@ const RegisterContainer = styled.div`
   }
 
   .register-card-header {
-    margin-top: 2.2rem;
+    margin-top: 2rem;
     color: #025930;
+    margin-bottom: 10px;
   }
 
   .register-card-main {

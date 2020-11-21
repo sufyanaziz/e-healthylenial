@@ -13,8 +13,10 @@ const History = props => {
   const { getAllKategori, kategori } = context;
 
   useEffect(() => {
+    document.title = "Report - HealthyLenial";
     getAllKategori();
   }, []);
+  console.log("Welcome to Report Page 🔥");
 
   return (
     <Layout history={props.history}>

@@ -24,6 +24,8 @@ const Profile = props => {
     document.title = `Profile: ${username} - HealthyLenial `;
   }, []);
 
+  console.log("Welcome to Profile Page 🔥");
+
   return (
     <Layout history={props.history}>
       <ProfileContainer>

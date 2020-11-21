@@ -29,6 +29,7 @@ import {
   SET_LOADING_KEGIATAN,
   SET_ERROR_KEGIATAN,
   SET_UPDATE_KEGIATAN,
+  SET_DELETE_KEGIATAN,
   SET_LOADING_KONTEN,
   SET_KONTEN,
   SET_ERROR_KONTEN,
@@ -113,7 +114,23 @@ const Provider = props => {
       })
       .catch(err => {
         const errors = err.response.data.errors;
-        userDispatch({ type: SET_ERROR_USER, payload: errors });
+        if (errors.username) {
+          userDispatch({
+            type: SET_FLASH_MESSAGE,
+            payload: {
+              msg: errors.username,
+              status: "not-success",
+            },
+          });
+        } else {
+          userDispatch({
+            type: SET_FLASH_MESSAGE,
+            payload: {
+              msg: "something went wrong! we're gonna fix it!",
+              status: "not-success",
+            },
+          });
+        }
       });
   };
 
@@ -224,6 +241,19 @@ const Provider = props => {
         console.log(err);
       });
   };
+  const deleteKegiatan = ({ id_kegiatan, closeDialog }) => {
+    kegiatanDispatch({ type: SET_LOADING_KEGIATAN });
+    axios
+      .delete(`/kegiatan/delete/${id_kegiatan}`)
+      .then(() => {
+        kegiatanDispatch({ type: SET_DELETE_KEGIATAN, id_kegiatan });
+        closeDialog();
+        window.alert("Boooom 💥 Your list has been deleted!");
+      })
+      .catch(err => {
+        kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: err });
+      });
+  };
   // End Kegiatan Section
   // Konten Section
   const getAllKonten = () => {
@@ -255,6 +285,7 @@ const Provider = props => {
         getAllKategori,
         getAllKegiatanById,
         updateStatusKegiatan,
+        deleteKegiatan,
         addNewKegiatan,
         updateKegiatanList,
         getAllKonten,
