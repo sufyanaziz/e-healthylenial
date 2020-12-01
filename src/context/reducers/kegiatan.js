@@ -6,10 +6,12 @@ import {
   SET_STATUS_KEGIATAN,
   SET_UPDATE_KEGIATAN,
   SET_DELETE_KEGIATAN,
+  SET_REPORT_KEGIATAN,
 } from "../types";
 
 export const initialState = {
   all_kegiatan: [],
+  report_kegiatan: [],
   loading: false,
   error: {},
 };
@@ -69,6 +71,12 @@ const kategoriReducer = (state, action) => {
         ...state,
         loading: false,
         all_kegiatan: deleteKegiatan,
+      };
+    case SET_REPORT_KEGIATAN:
+      return {
+        ...state,
+        loading: false,
+        report_kegiatan: action.payload,
       };
     case SET_ERROR_KEGIATAN:
       return {

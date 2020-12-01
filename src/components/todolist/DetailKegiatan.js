@@ -15,6 +15,8 @@ const DetailKegiatan = ({
   updateKegiatanList,
   loading,
   deleteKegiatan,
+  page,
+  history,
 }) => {
   const [updateActive, setUpdateActive] = useState(false);
   const [namaKegiatan, setNamaKegiatan] = useState("");
@@ -52,6 +54,7 @@ const DetailKegiatan = ({
 
   const {
     id_kegiatan,
+    id_kategori,
     status,
     nama_kegiatan,
     keterangan,
@@ -131,31 +134,39 @@ const DetailKegiatan = ({
     }
   };
 
+  const handleClickDashboard = () => {
+    history.push("/list");
+  };
+
   return (
     <Dialog open={open} onClose={onCloseDialog}>
       <DetailKegiatanContainer
         status={status}
         btnUpdateActive={updateActive}
-        disabledButton={disabledButton()}
+        disabledButton={page === "dashboard" ? false : disabledButton()}
       >
         <div className="detail-kegiatan-header">
           <h3>Details List</h3>
-          {status !== "finish" && (
-            <button
-              onClick={
-                updateActive
-                  ? () => setUpdateActive(false)
-                  : () => setUpdateActive(true)
-              }
-            >
-              {updateActive ? (
-                <HighlightOffIcon style={{ marginRight: 3, fontSize: 18 }} />
-              ) : (
-                <UpdateIcon style={{ marginRight: 3, fontSize: 18 }} />
+          {page === "dashboard"
+            ? null
+            : status !== "finish" && (
+                <button
+                  onClick={
+                    updateActive
+                      ? () => setUpdateActive(false)
+                      : () => setUpdateActive(true)
+                  }
+                >
+                  {updateActive ? (
+                    <HighlightOffIcon
+                      style={{ marginRight: 3, fontSize: 18 }}
+                    />
+                  ) : (
+                    <UpdateIcon style={{ marginRight: 3, fontSize: 18 }} />
+                  )}
+                  {updateActive ? "Close Edit List" : "Edit List"}
+                </button>
               )}
-              {updateActive ? "Close Edit List" : "Edit List"}
-            </button>
-          )}
         </div>
         <div className="detail-kegiatan-main">
           <div className="detail-kegiatan-nks">
@@ -291,7 +302,15 @@ const DetailKegiatan = ({
             </div>
           </div>
           <div className="action-kegiatan">
-            {updateActive ? (
+            {page === "dashboard" ? (
+              <button
+                disabled={false}
+                className="update-button"
+                onClick={handleClickDashboard}
+              >
+                Go to list
+              </button>
+            ) : updateActive ? (
               <button
                 onClick={handleClickUpdateKegiatan}
                 disabled={disabledButton()}

@@ -4,10 +4,14 @@ import EventNoteIcon from "@material-ui/icons/EventNote";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 import Header from "../../components/header";
 
 const Landing = () => {
+  useEffect(() => {
+    document.title = "HealthyLenial";
+  }, []);
   return (
     <LandingContainer>
       <div className="landing-card">

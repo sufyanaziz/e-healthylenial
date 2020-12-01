@@ -33,6 +33,7 @@ import {
   SET_LOADING_KONTEN,
   SET_KONTEN,
   SET_ERROR_KONTEN,
+  SET_REPORT_KEGIATAN,
 } from "./types";
 
 const Context = createContext();
@@ -257,10 +258,11 @@ const Provider = props => {
   };
 
   const getReport = () => {
+    kegiatanDispatch({ type: SET_LOADING_KEGIATAN });
     axios
       .get("/kegiatan/get_report")
       .then(res => {
-        console.log(res.data);
+        kegiatanDispatch({ type: SET_REPORT_KEGIATAN, payload: res.data.data });
       })
       .catch(err => {
         kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: err });
