@@ -18,14 +18,13 @@ const PageLogin = props => {
     document.title = "Login - HealthyLenial";
   }, []);
 
-  console.log("Follow me on instagram: ahmadsufyan_ 🔥");
-
   const onSubmitLogin = e => {
     e.preventDefault();
 
     const data = { username, password };
 
     login({ data, history: props.history });
+    unsetFlashMessage();
   };
 
   const onChangeUsername = e => {
@@ -90,7 +89,10 @@ const PageLogin = props => {
               </button>
             )}
             <p>
-              Kamu tidak punya akun? <Link to="/register">Regis disini</Link>
+              Kamu tidak punya akun?{" "}
+              <Link to="/register" onClick={() => unsetFlashMessage()}>
+                Regis disini
+              </Link>
             </p>
           </form>
         </div>

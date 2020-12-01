@@ -40,7 +40,6 @@ const List = props => {
     document.title = "Todo List - HealthyLenial";
     context.getAllKategori();
   }, []);
-  console.log("Welcome to TodoList Page 🔥");
 
   const onClickKategori = data => {
     const id_kategori = data.id_kategori;

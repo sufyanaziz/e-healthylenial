@@ -145,7 +145,10 @@ const Register = ({ history }) => {
             register
           </button>
           <p>
-            Back To <Link to="/login">Login</Link>
+            Back To{" "}
+            <Link to="/login" onClick={() => unsetFlashMessage()}>
+              Login
+            </Link>
           </p>
         </form>
       </div>

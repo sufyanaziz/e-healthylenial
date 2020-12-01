@@ -241,6 +241,7 @@ const Provider = props => {
         console.log(err);
       });
   };
+
   const deleteKegiatan = ({ id_kegiatan, closeDialog }) => {
     kegiatanDispatch({ type: SET_LOADING_KEGIATAN });
     axios
@@ -249,6 +250,17 @@ const Provider = props => {
         kegiatanDispatch({ type: SET_DELETE_KEGIATAN, id_kegiatan });
         closeDialog();
         window.alert("Boooom 💥 Your list has been deleted!");
+      })
+      .catch(err => {
+        kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: err });
+      });
+  };
+
+  const getReport = () => {
+    axios
+      .get("/kegiatan/get_report")
+      .then(res => {
+        console.log(res.data);
       })
       .catch(err => {
         kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: err });
@@ -287,6 +299,7 @@ const Provider = props => {
         updateStatusKegiatan,
         deleteKegiatan,
         addNewKegiatan,
+        getReport,
         updateKegiatanList,
         getAllKonten,
       }}
