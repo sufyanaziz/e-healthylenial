@@ -268,6 +268,19 @@ const Provider = props => {
         kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: err });
       });
   };
+
+  const getHistory = () => {
+    kegiatanDispatch({ type: SET_LOADING_KEGIATAN });
+    axios
+      .get("/kegiatan/history")
+      .then(res => {
+        kegiatanDispatch({ type: SET_ALL_KEGIATAN, payload: res.data.data });
+      })
+      .catch(err => {
+        kegiatanDispatch({ type: SET_ERROR_KEGIATAN, payload: err });
+      });
+  };
+
   // End Kegiatan Section
   // Konten Section
   const getAllKonten = () => {
@@ -302,6 +315,7 @@ const Provider = props => {
         deleteKegiatan,
         addNewKegiatan,
         getReport,
+        getHistory,
         updateKegiatanList,
         getAllKonten,
       }}
